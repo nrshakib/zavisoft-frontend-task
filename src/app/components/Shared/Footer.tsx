@@ -1,16 +1,17 @@
 "use client";
 
 import React, { useState } from "react";
+import { TextField, Button, Box } from "@mui/material";
 import {
-  TextField,
-  Button,
-  Box,
-  Typography,
-  InputAdornment,
-} from "@mui/material";
-import { FaFacebookF, FaInstagram, FaTwitter, FaTiktok } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
+  FaFacebookF,
+  FaInstagram,
+  FaTwitter,
+  FaTiktok,
+  FaPlus,
+} from "react-icons/fa";
 import Image from "next/image";
+import { openSans, rubik } from "@/utils/fonts/fonts";
+import Link from "next/link";
 
 const socialLinks = [
   { icon: <FaFacebookF size={15} />, href: "#", label: "Facebook" },
@@ -27,62 +28,61 @@ const categories = [
   "Golf",
   "Hiking",
 ];
+
 const companyLinks = ["About", "Contact", "Blogs"];
 
 export default function Footer() {
   const [email, setEmail] = useState("");
 
   return (
-    <footer className="w-[95%] mx-auto font-sans">
-      {/* ── Blue Newsletter Banner ── */}
-      <div className="rounded-t-[48px] overflow-auto bg-[#4A69E2] pb-20">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between h-full p-9">
+    <footer className="w-full font-sans">
+      {/* Blue Banner */}
+      <div className="rounded-3xl lg:rounded-t-[48px] bg-[#4A69E2] pb-16 md:pb-20 px-3 md:px-12 lg:px-20 w-[95%] mx-auto">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-10 max-w-7xl mx-auto py-10">
           {/* Left */}
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-6 w-full lg:w-auto">
             <div>
-              <p className=" font-semibold text-white uppercase leading-tight tracking-tight text-5xl">
-                JOIN OUR KICKSPLUS
+              <p
+                className={`${rubik.className} font-semibold text-white leading-tight tracking-tight text-[32px] sm:text-4xl md:text-5xl`}
+              >
+                Join our KicksPlus
                 <br />
-                CLUB &amp; GET 15% OFF
+                Club & get 15% off
               </p>
 
               <p
-                className="text-lg text-[#E7E7E3] mt-1.5"
-                style={{
-                  fontFamily: "'DM Sans', sans-serif",
-                }}
+                className={`${openSans.className} text-base sm:text-lg text-[#E7E7E3] mt-2`}
               >
                 Sign up for free! Join the community.
               </p>
             </div>
 
             {/* Email form */}
-            <Box className="flex items-center gap-2">
+            <Box className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full sm:w-auto">
               <TextField
                 placeholder="Email address"
                 variant="outlined"
                 size="small"
+                fullWidth
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 sx={{
-                  borderRadius: "6px",
-                  width: { xs: "180px", sm: "240px" },
+                  maxWidth: { sm: "260px" },
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "6px",
                     border: "1px solid white",
-
                     "& fieldset": { border: "none" },
                   },
                   "& input": {
                     fontFamily: "'DM Sans', sans-serif",
-                    fontSize: "0.82rem",
+                    fontSize: "0.9rem",
                     color: "#fff",
-                    padding: "8px 6px",
+                    padding: "10px 8px",
                     "&::placeholder": { color: "#fff" },
                   },
-                  "& .MuiInputAdornment-root": { marginRight: "4px" },
                 }}
               />
+
               <Button
                 variant="contained"
                 size="small"
@@ -90,15 +90,14 @@ export default function Footer() {
                 sx={{
                   bgcolor: "#111",
                   color: "white",
-                  fontFamily: "'Barlow Condensed', sans-serif",
                   fontWeight: 700,
                   letterSpacing: "0.1em",
                   borderRadius: "6px",
-                  px: 2,
-                  py: "7px",
-                  fontSize: "0.75rem",
-                  minWidth: "auto",
+                  px: 3,
+                  py: "10px",
+                  fontSize: "0.8rem",
                   "&:hover": { bgcolor: "#000" },
+                  width: { xs: "100%", sm: "auto" },
                 }}
               >
                 SUBMIT
@@ -106,71 +105,58 @@ export default function Footer() {
             </Box>
           </div>
 
-          {/* Right: KICKS+ Logo */}
-          <div
-            className="shrink-0 mt-6 sm:mt-0"
-            style={{ paddingRight: "8px" }}
-          >
+          {/* Right Logo */}
+          <div className="relative w-55 sm:w-70 lg:w-87.5 shrink-0">
             <Image
               src="/images/logo-white.png"
               alt="KICKS+ Logo"
-              width={120}
-              height={40}
+              width={350}
+              height={60}
+              className="w-full h-auto"
             />
+            <p className="absolute -top-4 sm:-top-3 -right-3 lg:right-0 bg-[#FFA52F] rounded-full p-1">
+              <FaPlus className="text-[#4A69E2]" />
+            </p>
           </div>
         </div>
       </div>
 
-      {/* ── Dark Footer Section ── */}
-      <div className="" style={{ marginTop: "-60px" }}>
-        <div
-          className="rounded-[48px] bg-[#1e1e1c]"
-          style={{ padding: "36px 36px 0 36px" }}
-        >
-          {/* 4-column grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
+      {/* Dark Footer */}
+      <div className="-mt-12 md:-mt-16 w-[95%] mx-auto">
+        <div className="rounded-[48px] bg-[#1e1e1c] pt-12 px-6 md:px-10 lg:px-12">
+          {/* Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
             {/* About */}
-            <div>
-              <FooterHeading>About us</FooterHeading>
-              <Typography
-                style={{
-                  fontFamily: "'DM Sans', sans-serif",
-                  color: "#9ca3af",
-                  fontSize: "0.82rem",
-                  lineHeight: 1.75,
-                }}
+            <div className="lg:col-span-2">
+              <p
+                className={`${rubik.className} font-semibold text-[#ffa52f] text-3xl md:text-4xl mb-4`}
+              >
+                About us
+              </p>
+              <p
+                className={`${openSans.className} text-base sm:text-lg md:text-xl font-semibold text-[#E7E7E3] max-w-md`}
               >
                 We are the biggest hyperstore in the universe. We got you all
                 cover with our exclusive collections and latest drops.
-              </Typography>
+              </p>
             </div>
 
             {/* Categories */}
             <div>
-              <FooterHeading>Categories</FooterHeading>
-              <ul className="flex flex-col gap-[6px] list-none p-0 m-0">
+              <p
+                className={`${rubik.className} font-semibold text-[#ffa52f] text-xl md:text-2xl mb-4`}
+              >
+                Categories
+              </p>
+              <ul className="flex flex-col gap-2">
                 {categories.map((cat) => (
                   <li key={cat}>
-                    <a
+                    <Link
                       href="#"
-                      style={{
-                        fontFamily: "'DM Sans', sans-serif",
-                        fontSize: "0.82rem",
-                        color: "#9ca3af",
-                        textDecoration: "none",
-                        transition: "color 0.2s",
-                      }}
-                      onMouseEnter={(e) =>
-                        ((e.currentTarget as HTMLAnchorElement).style.color =
-                          "#fff")
-                      }
-                      onMouseLeave={(e) =>
-                        ((e.currentTarget as HTMLAnchorElement).style.color =
-                          "#9ca3af")
-                      }
+                      className={`${openSans.className} text-base md:text-lg font-semibold text-[#E7E7E3] hover:text-white transition`}
                     >
                       {cat}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -178,118 +164,66 @@ export default function Footer() {
 
             {/* Company */}
             <div>
-              <FooterHeading>Company</FooterHeading>
-              <ul className="flex flex-col gap-[6px] list-none p-0 m-0">
+              <p
+                className={`${rubik.className} font-semibold text-[#ffa52f] text-xl md:text-2xl mb-4`}
+              >
+                Company
+              </p>
+              <ul className="flex flex-col gap-2">
                 {companyLinks.map((link) => (
                   <li key={link}>
-                    <a
+                    <Link
                       href="#"
-                      style={{
-                        fontFamily: "'DM Sans', sans-serif",
-                        fontSize: "0.82rem",
-                        color: "#9ca3af",
-                        textDecoration: "none",
-                        transition: "color 0.2s",
-                      }}
-                      onMouseEnter={(e) =>
-                        ((e.currentTarget as HTMLAnchorElement).style.color =
-                          "#fff")
-                      }
-                      onMouseLeave={(e) =>
-                        ((e.currentTarget as HTMLAnchorElement).style.color =
-                          "#9ca3af")
-                      }
+                      className={`${openSans.className} text-base md:text-lg font-semibold text-[#E7E7E3] hover:text-white transition`}
                     >
                       {link}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
             </div>
 
-            {/* Follow us */}
+            {/* Social */}
             <div>
-              <FooterHeading>Follow us</FooterHeading>
-              <div className="flex gap-2 flex-wrap">
+              <p
+                className={`${rubik.className} font-semibold text-[#ffa52f] text-xl md:text-2xl mb-4`}
+              >
+                Follow us
+              </p>
+              <div className="flex gap-3 flex-wrap">
                 {socialLinks.map(({ icon, href, label }) => (
-                  <a
+                  <Link
                     key={label}
                     href={href}
                     aria-label={label}
-                    className="flex items-center justify-center rounded-full"
-                    style={{
-                      width: 34,
-                      height: 34,
-                      background: "#2a2a28",
-                      color: "#9ca3af",
-                      transition: "background 0.2s, color 0.2s",
-                      textDecoration: "none",
-                    }}
-                    onMouseEnter={(e) => {
-                      (e.currentTarget as HTMLAnchorElement).style.background =
-                        "#4A69E2";
-                      (e.currentTarget as HTMLAnchorElement).style.color =
-                        "#fff";
-                    }}
-                    onMouseLeave={(e) => {
-                      (e.currentTarget as HTMLAnchorElement).style.background =
-                        "#2a2a28";
-                      (e.currentTarget as HTMLAnchorElement).style.color =
-                        "#9ca3af";
-                    }}
+                    className="flex items-center justify-center rounded-full bg-white p-1 lg:p-3 text-black hover:bg-black hover:text-white transition"
                   >
                     {icon}
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>
           </div>
 
-          {/* Giant logo image — partially clipped at bottom */}
-          <div
-            className="overflow-hidden mx-9 relative"
-            style={{
-              height: "clamp(100px, 20vw, 240px)",
-            }}
-          >
+          {/* Large Logo */}
+          <div className="relative w-full overflow-hidden h-15 sm:h-30 lg:h-60">
             <Image
               src="/Images/logo-white.png"
               alt="Kicks Logo"
               fill
-              style={{ objectFit: "cover", objectPosition: "top" }}
+              className="object-cover object-top"
               priority
             />
           </div>
         </div>
 
         {/* Copyright */}
-        <div className="bg-white text-center py-4">
-          <p
-            className="text-[#232321]"
-            style={{ fontFamily: "'Open Sans', sans-serif" }}
-          >
+        <div className="bg-white text-center py-4 mt-6">
+          <p className="text-[#232321] text-sm sm:text-base">
             © All rights reserved
           </p>
         </div>
       </div>
     </footer>
-  );
-}
-
-function FooterHeading({ children }: { children: React.ReactNode }) {
-  return (
-    <Typography
-      style={{
-        fontFamily: "'Barlow Condensed', 'Arial Narrow', sans-serif",
-        fontWeight: 800,
-        fontSize: "1rem",
-        textTransform: "uppercase",
-        letterSpacing: "0.05em",
-        color: "white",
-        marginBottom: "12px",
-      }}
-    >
-      {children}
-    </Typography>
   );
 }
