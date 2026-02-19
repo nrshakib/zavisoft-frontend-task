@@ -16,7 +16,7 @@ export default function Navbar() {
 
   return (
     <div className="w-full py-4 flex justify-center">
-      <nav className="w-[95%] max-w-9xl bg-[#EDEDED] rounded-2xl px-6 md:px-8 py-3 flex items-center justify-between relative">
+      <nav className="w-[95%] bg-[#EDEDED] rounded-2xl px-6 md:px-8 py-3 flex items-center justify-between relative">
         {/* Desktop Left Section */}
         <div className="hidden lg:flex items-center gap-6 font-semibold text-[#232321]">
           <Link href="/" className="flex items-center gap-1">
