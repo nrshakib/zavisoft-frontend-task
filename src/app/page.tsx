@@ -1,7 +1,9 @@
+import HeroSection from "@/components/LandingPage/HeroSection";
+
 export default function Home() {
   return (
     <div className="">
-      <p>Hello</p>
+      <HeroSection />
     </div>
   );
 }
