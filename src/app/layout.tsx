@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "../components/Shared/Navbar";
 import Footer from "../components/Shared/Footer";
+import Providers from "@/utils/Providers";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 export const metadata: Metadata = {
   title: "Kicks Front End Task",
@@ -16,9 +19,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-[#E7E7E3] max-w-330 mx-auto">
-        <Navbar />
-        {children}
-        <Footer />
+        <Providers>
+          <Navbar />
+          {children}
+          <Footer />
+        </Providers>
       </body>
     </html>
   );
