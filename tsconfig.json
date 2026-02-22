@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-, "src/components/Shared/Suggestions.jsx", "src/app/product-details/[slug]/page.jsx", "src/app/all-products/page.jsx"  ],
+, "src/components/Shared/Suggestions.jsx", "src/app/product-details/[slug]/page.jsx", "src/app/all-products/page.jsx", "src/components/Shared/Navbar.jsx", "src/components/Shared/Footer.jsx", "src/components/LandingPage/Reviews.jsx", "src/components/LandingPage/NewDrops.jsx", "src/components/LandingPage/HeroSection.jsx", "src/components/LandingPage/Categories.jsx", "src/app/page.jsx", "src/app/layout.jsx", "src/redux/slices/categoriesApi.js", "src/redux/slices/productsApi.js", "src/redux/baseApi.js", "src/redux/rootReducer.js", "src/redux/store.js", "src/utils/axiosBaseQuery.js", "src/utils/baseUrl.js", "src/utils/Loader.jsx", "src/utils/Providers.jsx"  ],
   "exclude": ["node_modules"]
 }

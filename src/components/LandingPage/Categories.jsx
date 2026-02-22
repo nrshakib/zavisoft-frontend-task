@@ -9,7 +9,7 @@ import Loader from "@/utils/Loader";
 import { rubik } from "@/utils/fonts/fonts";
 
 export default function Categories() {
-  const sliderRef = React.useRef<Slider | null>(null);
+  const sliderRef = (React.useRef < Slider) | (null > null);
 
   const { data: categories, isLoading, error } = useGetAllCategoriesQuery({});
 
@@ -68,8 +68,8 @@ export default function Categories() {
 
       {/* Slider */}
       <Slider ref={sliderRef} {...settings}>
-        {categories?.map((item: any) => (
-          <div key={item._id} className="">
+        {categories?.map((item) => (
+          <div key={item.id} className="">
             <div className="overflow-hidden rounded-tl-3xl">
               {/* Top Split Background */}
               <div className="relative h-[260px] flex bg-[#F6F6F6]">
