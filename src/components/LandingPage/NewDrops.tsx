@@ -48,11 +48,8 @@ export default function NewDrops() {
         {latestProducts.map((product) => (
           <div key={product._id}>
             <div
-              className="relative flex flex-col 
-        rounded-2xl p-0 sm:p-4 
-        border border-gray-200 
-        hover:shadow-xl transition
-        lg:min-h-[500px] lg:pb-24"
+              className="relative flex flex-col rounded-2xl p-0 sm:p-4 border border-gray-200 
+        hover:shadow-xl transition lg:min-h-[500px] lg:pb-24"
             >
               {/* Image */}
               <div className="relative bg-[#FAFAFA] p-3 sm:p-4 rounded-xl flex items-center justify-center">

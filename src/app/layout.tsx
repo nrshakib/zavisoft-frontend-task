@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "../components/Shared/Navbar";
 import Footer from "../components/Shared/Footer";
 import Providers from "@/utils/Providers";
+
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
