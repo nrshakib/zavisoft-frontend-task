@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import { IconButton } from "@mui/material";
 import Slider from "react-slick";
 import { FiArrowLeft, FiArrowRight, FiArrowUpRight } from "react-icons/fi";
@@ -9,7 +9,7 @@ import Loader from "@/utils/Loader";
 import { rubik } from "@/utils/fonts/fonts";
 
 export default function Categories() {
-  const sliderRef = (React.useRef < Slider) | (null > null);
+  const sliderRef = useRef(null);
 
   const { data: categories, isLoading, error } = useGetAllCategoriesQuery({});
 
@@ -72,7 +72,7 @@ export default function Categories() {
           <div key={item.id} className="">
             <div className="overflow-hidden rounded-tl-3xl">
               {/* Top Split Background */}
-              <div className="relative h-[260px] flex bg-[#F6F6F6]">
+              <div className="relative h-65 flex bg-[#F6F6F6]">
                 {/* Image */}
                 <div className="absolute inset-0 flex items-center justify-center p-10">
                   <img

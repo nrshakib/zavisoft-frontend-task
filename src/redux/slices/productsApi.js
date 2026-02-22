@@ -17,6 +17,7 @@ const productsApi = baseApi.injectEndpoints({
     }),
     getSingleProduct: builder.query({
       query: (slug) => {
+        console.log(slug);
         return {
           url: `/products/slug/${slug}`,
           method: "GET",

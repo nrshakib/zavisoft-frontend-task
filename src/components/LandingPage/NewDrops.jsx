@@ -3,7 +3,6 @@
 
 import { useGetAllProductsQuery } from "@/redux/slices/productsApi";
 import Loader from "@/utils/Loader";
-import { Button } from "@mui/material";
 import { rubik } from "@/utils/fonts/fonts";
 import Link from "next/link";
 
@@ -48,17 +47,17 @@ export default function NewDrops() {
       {/* Products */}
       <div className="mt-10 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
         {latestProducts.map((product) => (
-          <div key={product._id}>
+          <div key={product.id}>
             <div
               className="relative flex flex-col rounded-2xl p-0 sm:p-4 border border-gray-200 
-        hover:shadow-xl transition lg:min-h-[500px] lg:pb-24"
+        hover:shadow-xl transition lg:min-h-125 lg:pb-24"
             >
               {/* Image */}
               <div className="relative bg-[#FAFAFA] p-3 sm:p-4 rounded-xl flex items-center justify-center">
                 <img
                   src={product.images?.[0]}
                   alt={product.title}
-                  className="h-[140px] sm:h-[200px] lg:h-[300px] 
+                  className="h-35 sm:h-50 lg:h-75 
             w-full object-contain"
                 />
 
