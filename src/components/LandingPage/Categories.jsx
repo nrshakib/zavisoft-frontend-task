@@ -72,7 +72,7 @@ export default function Categories() {
           <div key={item.id} className="">
             <div className="overflow-hidden rounded-tl-3xl">
               {/* Top Split Background */}
-              <div className="relative h-65 flex bg-[#F6F6F6]">
+              <div className="relative h-[260px] flex bg-[#F6F6F6]">
                 {/* Image */}
                 <div className="absolute inset-0 flex items-center justify-center p-10">
                   <img

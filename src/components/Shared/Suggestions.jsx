@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
+import { useEffect } from "react";
 import { useGetAllProductsQuery } from "@/redux/slices/productsApi";
 import Loader from "@/utils/Loader";
 import { rubik } from "@/utils/fonts/fonts";
@@ -48,6 +49,21 @@ function PrevArrow(props) {
 }
 
 export default function Suggestions() {
+  useEffect(() => {
+    const style = document.createElement("style");
+    style.textContent = `
+      .slick-dots li.slick-active div {
+        background-color: #4a69e2 !important;
+        transform: scale(1.2);
+      }
+      .slick-slide > div { height: 100%; }
+      .slick-track { display: flex; align-items: stretch; }
+      .slick-slide { height: inherit !important; }
+    `;
+    document.head.appendChild(style);
+    return () => document.head.removeChild(style);
+  }, []);
+
   const {
     data: productsData,
     isLoading: productsIsLoading,
@@ -215,30 +231,7 @@ export default function Suggestions() {
         </Slider>
       </div>
 
-      {/* Custom Slider Styles */}
-      <style jsx global>{`
-        .slick-dots li.slick-active div {
-          background-color: #4a69e2 !important;
-          transform: scale(1.2);
-        }
 
-        .slick-slide > div {
-          height: 100%;
-        }
-
-        .slick-track {
-          display: flex;
-          align-items: stretch;
-        }
-
-        .slick-slide {
-          height: inherit !important;
-        }
-
-        .slick-slide > div {
-          height: 100%;
-        }
-      `}</style>
     </div>
   );
 }
