@@ -4,8 +4,10 @@ import React, { useState } from "react";
 import { FaRegHeart } from "react-icons/fa";
 import { Button } from "@mui/material";
 import { useGetSingleProductQuery } from "@/redux/slices/productsApi";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Suggestions from "@/components/Shared/Suggestions";
+import { useCart } from "@/context/CartContext";
+import { toast } from "sonner";
 
 export default function ProductPage() {
   const { slug } = useParams();
@@ -17,9 +19,33 @@ export default function ProductPage() {
   } = useGetSingleProductQuery(slug);
   console.log(singleProductData);
 
-  const [selectedSize, setSelectedSize] = useState(40);
+  const [selectedSize, setSelectedSize] = useState(10);
   const [selectedColor, setSelectedColor] = useState("navy");
   const [activeImage, setActiveImage] = useState(0);
+  const [isAdded, setIsAdded] = useState(false);
+
+  const { addToCart } = useCart();
+  const router = useRouter();
+
+  const handleAddToCart = () => {
+    if (!singleProductData) return;
+
+    addToCart(
+      {
+        id: singleProductData.id,
+        title: singleProductData.title,
+        price: singleProductData.price,
+        image: singleProductData.images[0],
+      },
+      selectedSize,
+      selectedColor,
+      1,
+    );
+
+    toast.success("Product added to cart!");
+    setIsAdded(true);
+    setTimeout(() => setIsAdded(false), 1000);
+  };
 
   const sizes = [39, 40, 41, 42, 43, 44, 45];
   const colors = [
@@ -162,9 +188,12 @@ export default function ProductPage() {
                   <Button
                     variant="contained"
                     fullWidth
+                    onClick={handleAddToCart}
                     className="!bg-gray-900 hover:!bg-gray-800 !py-2.5 sm:!py-3 md:!py-3.5 !text-sm sm:!text-base !font-semibold !rounded-lg sm:!rounded-xl col-span-4 !normal-case"
                   >
-                    <span className="">Add to Cart</span>
+                    <span className="">
+                      {isAdded ? "Added ✓" : "Add to Cart"}
+                    </span>
                   </Button>
                   <Button
                     variant="contained"

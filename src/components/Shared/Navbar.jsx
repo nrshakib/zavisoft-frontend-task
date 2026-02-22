@@ -4,12 +4,15 @@ import { IconButton, Badge, TextField, Drawer, Collapse } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
-import { FaSearch, FaUser, FaBars, FaChevronDown } from "react-icons/fa";
+import { FaSearch, FaUser, FaBars, FaChevronDown, FaShoppingBag } from "react-icons/fa";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { motion, AnimatePresence } from "motion/react";
+import { useCart } from "@/context/CartContext";
 
 export default function Navbar() {
+  const { cartItems } = useCart();
   const [openSearch, setOpenSearch] = useState(false);
+  // ... rest of the code
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openMen, setOpenMen] = useState(false);
   const [openWomen, setOpenWomen] = useState(false);
@@ -87,27 +90,30 @@ export default function Navbar() {
             <FaUser size={20} color="#232321" />
           </IconButton>
 
-          <Badge
-            badgeContent={0}
-            showZero
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            sx={{
-              "& .MuiBadge-badge": {
-                backgroundColor: "#F59E0B",
-                color: "#fff",
-                fontSize: "14px",
-                fontWeight: 600,
-                minWidth: "22px",
-                height: "22px",
-                borderRadius: "50%",
-              },
-            }}
-          >
-            <span style={{ width: 1, height: 1 }} />
-          </Badge>
+          <Link href="/cart">
+            <Badge
+              badgeContent={cartItems.length}
+              showZero
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              sx={{
+                "& .MuiBadge-badge": {
+                  backgroundColor: "#FFA52F",
+                  color: "#232321",
+                  fontSize: "12px",
+                  fontWeight: 700,
+                  minWidth: "20px",
+                  height: "20px",
+                  borderRadius: "50%",
+                  border: "2px solid #EDEDED",
+                },
+              }}
+            >
+              <FaShoppingBag size={20} color="#232321" />
+            </Badge>
+          </Link>
         </div>
       </nav>
 

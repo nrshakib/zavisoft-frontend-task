@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useState } from "react";
@@ -12,22 +11,11 @@ import {
 import { FiHeart, FiTrash2 } from "react-icons/fi";
 import { AiOutlineTag } from "react-icons/ai";
 import Suggestions from "@/components/Shared/Suggestions";
+import { useCart } from "@/context/CartContext";
+import Link from "next/link";
 
 export default function CartPage() {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "DROPSET TRAINER SHOES",
-      description: "Men's Road Running Shoes",
-      brand: "Reebok",
-      ownership: "Unisex Reebok Training",
-      size: 10,
-      quantity: 1,
-      price: 130.0,
-      image: "/api/placeholder/120/120",
-    },
-  ]);
-
+  const { cartItems, removeFromCart, updateQuantity } = useCart();
   const [promoCode, setPromoCode] = useState("");
 
   // Calculate totals
@@ -35,29 +23,40 @@ export default function CartPage() {
     (sum, item) => sum + item.price * item.quantity,
     0,
   );
-  const delivery = 6.99;
+  const delivery = cartItems.length > 0 ? 6.99 : 0;
   const salesTax = 0;
   const total = subtotal + delivery + salesTax;
 
-  const handleQuantityChange = (id, newQuantity) => {
-    setCartItems(
-      cartItems.map((item) =>
-        item.id === id ? { ...item, quantity: parseInt(newQuantity) } : item,
-      ),
+  if (cartItems.length === 0) {
+    return (
+      <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto text-center">
+          <h1 className="text-3xl font-bold text-gray-900 mb-6">Your Bag</h1>
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-12">
+            <p className="text-xl text-gray-600 mb-8">Your bag is empty</p>
+            <Link href="/">
+              <Button
+                variant="contained"
+                sx={{
+                  bgcolor: "#232321",
+                  "&:hover": { bgcolor: "gray.800" },
+                  px: 4,
+                  py: 1.5,
+                  borderRadius: "12px",
+                  textTransform: "none",
+                  fontSize: "16px",
+                  fontWeight: 600,
+                }}
+              >
+                Start Shopping
+              </Button>
+            </Link>
+          </div>
+          <Suggestions />
+        </div>
+      </div>
     );
-  };
-
-  const handleSizeChange = (id, newSize) => {
-    setCartItems(
-      cartItems.map((item) =>
-        item.id === id ? { ...item, size: parseInt(newSize) } : item,
-      ),
-    );
-  };
-
-  const handleRemoveItem = (id) => {
-    setCartItems(cartItems.filter((item) => item.id !== id));
-  };
+  }
 
   return (
     <div className="min-h-screen py-6 sm:py-8 lg:py-12">
@@ -93,7 +92,7 @@ export default function CartPage() {
               <div className="space-y-6">
                 {cartItems.map((item) => (
                   <div
-                    key={item.id}
+                    key={item.uniqueId}
                     className="flex flex-col sm:flex-row gap-4 pb-6 border-b border-gray-200 last:border-b-0"
                   >
                     {/* Product Image */}
@@ -101,7 +100,7 @@ export default function CartPage() {
                       <div className="w-full sm:w-32 h-32 bg-gray-100 rounded-lg overflow-hidden">
                         <img
                           src={item.image}
-                          alt={item.name}
+                          alt={item.title}
                           className="w-full h-full object-cover"
                         />
                       </div>
@@ -112,69 +111,49 @@ export default function CartPage() {
                       <div className="flex justify-between items-start mb-2">
                         <div className="flex-1">
                           <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-1">
-                            {item.name}
+                            {item.title}
                           </h3>
-                          <p className="text-sm text-gray-600 mb-1">
-                            {item.description}
-                          </p>
-                          <p className="text-sm text-gray-600">
-                            {item.ownership}
+                          <p className="text-sm text-gray-600 mb-1 uppercase">
+                            Size: {item.size} | Color: {item.color}
                           </p>
                         </div>
                         <div className="text-right ml-4">
                           <p className="text-base sm:text-lg font-bold text-gray-900">
-                            ${item.price.toFixed(2)}
+                            ${(item.price * item.quantity).toFixed(2)}
                           </p>
                         </div>
                       </div>
 
-                      {/* Size and Quantity Selectors */}
+                      {/* Quantity Selector */}
                       <div className="flex flex-wrap gap-3 sm:gap-4 mt-4 mb-4">
-                        {/* Size Selector */}
-                        <FormControl size="small" className="min-w-25!">
-                          <Select
-                            value={item.size}
-                            onChange={(e) =>
-                              handleSizeChange(item.id, e.target.value)
-                            }
-                            className="rounded-lg! text-sm!"
-                            displayEmpty
-                          >
-                            <MenuItem value={8}>Size 8</MenuItem>
-                            <MenuItem value={9}>Size 9</MenuItem>
-                            <MenuItem value={10}>Size 10</MenuItem>
-                            <MenuItem value={11}>Size 11</MenuItem>
-                            <MenuItem value={12}>Size 12</MenuItem>
-                          </Select>
-                        </FormControl>
-
-                        {/* Quantity Selector */}
                         <FormControl size="small" className="min-w-25!">
                           <Select
                             value={item.quantity}
                             onChange={(e) =>
-                              handleQuantityChange(item.id, e.target.value)
+                              updateQuantity(
+                                item.uniqueId,
+                                parseInt(e.target.value),
+                              )
                             }
                             className="rounded-lg! text-sm!"
-                            displayEmpty
                           >
-                            <MenuItem value={1}>Quantity 1</MenuItem>
-                            <MenuItem value={2}>Quantity 2</MenuItem>
-                            <MenuItem value={3}>Quantity 3</MenuItem>
-                            <MenuItem value={4}>Quantity 4</MenuItem>
-                            <MenuItem value={5}>Quantity 5</MenuItem>
+                            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
+                              <MenuItem key={num} value={num}>
+                                Quantity {num}
+                              </MenuItem>
+                            ))}
                           </Select>
                         </FormControl>
                       </div>
 
                       {/* Action Buttons */}
                       <div className="flex gap-4">
-                        <button className="flex items-center gap-2 text-sm text-gray-700 hover:text-gray-900 transition">
+                        <button className="flex items-center gap-2 text-sm text-gray-700 hover:text-gray-900 transition cursor-pointer">
                           <FiHeart className="text-lg" />
                         </button>
                         <button
-                          onClick={() => handleRemoveItem(item.id)}
-                          className="flex items-center gap-2 text-sm text-gray-700 hover:text-red-600 transition"
+                          onClick={() => removeFromCart(item.uniqueId)}
+                          className="flex items-center gap-2 text-sm text-gray-700 hover:text-red-600 transition cursor-pointer"
                         >
                           <FiTrash2 className="text-lg" />
                         </button>
@@ -196,7 +175,10 @@ export default function CartPage() {
               {/* Summary Details */}
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between text-sm sm:text-base">
-                  <span className="text-gray-600">{cartItems.length} ITEM</span>
+                  <span className="text-gray-600">
+                    {cartItems.reduce((sum, item) => sum + item.quantity, 0)}{" "}
+                    ITEM
+                  </span>
                   <span className="font-semibold text-gray-900">
                     ${subtotal.toFixed(2)}
                   </span>
@@ -235,7 +217,7 @@ export default function CartPage() {
                   fontWeight: "500",
                   fontSize: "14px",
                   "&:hover": {
-                    bgcolor: "gray.800",
+                    bgcolor: "#3b3838",
                   },
                 }}
                 className="bg-[#232321] hover:bg-gray-800 py-3 sm:py-4 text-sm sm:text-base font-semibold rounded-xl mb-4 normal-case"
