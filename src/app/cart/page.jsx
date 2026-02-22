@@ -1,13 +1,9 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useState } from "react";
-import {
-  Button,
-  IconButton,
-  MenuItem,
-  Select,
-  FormControl,
-} from "@mui/material";
+import { rubik, openSans } from "@/utils/fonts/fonts";
+import { Button, MenuItem, Select, FormControl } from "@mui/material";
 import { FiHeart, FiTrash2 } from "react-icons/fi";
 import { AiOutlineTag } from "react-icons/ai";
 import Suggestions from "@/components/Shared/Suggestions";
@@ -15,7 +11,8 @@ import { useCart } from "@/context/CartContext";
 import Link from "next/link";
 
 export default function CartPage() {
-  const { cartItems, removeFromCart, updateQuantity } = useCart();
+  const { cartItems, removeFromCart, updateQuantity, updateSize } = useCart();
+  console.log(cartItems);
   const [promoCode, setPromoCode] = useState("");
 
   // Calculate totals
@@ -63,15 +60,19 @@ export default function CartPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Section */}
         <div className="mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
+          <h1
+            className={`${rubik.className} text-2xl sm:text-3xl lg:text-[32px] font-semibold text-[#232321] mb-2`}
+          >
             Saving to celebrate
           </h1>
-          <p className="text-sm sm:text-base text-gray-600 ">
+          <p
+            className={`${openSans.className} text-xs sm:text-sm font-semibold text-[#232321]`}
+          >
             Enjoy up to 60% off thousands of styles during the End of Year sale
             - while suppiles last. No code needed.
             <br />
-            <span className="font-semibold"> Join Us</span> or{" "}
-            <span className="font-semibold">Sign In</span>.
+            <span className="text-base"> Join Us</span> or{" "}
+            <span className="text-base">Sign In</span>.
           </p>
         </div>
 
@@ -80,10 +81,14 @@ export default function CartPage() {
           {/* Left Column - Cart Items */}
           <div className="lg:col-span-2">
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6">
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
+              <h2
+                className={`${rubik.className} text-2xl sm:text-3xl lg:text-[32px] font-semibold text-[#232321] mb-2`}
+              >
                 Your Bag
               </h2>
-              <p className="text-sm text-gray-600 mb-6">
+              <p
+                className={`${openSans.className} text-xs sm:text-sm text-[#5a5a5a] mb-4`}
+              >
                 Items in your bag are not reserved — check out now to make them
                 yours.
               </p>
@@ -97,7 +102,7 @@ export default function CartPage() {
                   >
                     {/* Product Image */}
                     <div className="shrink-0">
-                      <div className="w-full sm:w-32 h-32 bg-gray-100 rounded-lg overflow-hidden">
+                      <div className="w-full sm:w-32 h-32 rounded-lg overflow-hidden">
                         <img
                           src={item.image}
                           alt={item.title}
@@ -110,22 +115,58 @@ export default function CartPage() {
                     <div className="flex-1">
                       <div className="flex justify-between items-start mb-2">
                         <div className="flex-1">
-                          <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-1">
+                          <h3
+                            className={`${rubik.className} text-base sm:text-lg lg:text-xl font-semibold text-[#232321] mb-1`}
+                          >
                             {item.title}
                           </h3>
-                          <p className="text-sm text-gray-600 mb-1 uppercase">
-                            Size: {item.size} | Color: {item.color}
+                          <p
+                            className={`${openSans.className} text-sm text-[#5a5a5a] mb-1 font-semibold`}
+                          >
+                            {item.category}
+                          </p>
+                          <p
+                            className={`${openSans.className} text-sm text-[#5a5a5a] mb-1 font-semibold`}
+                          >
+                            Color: {item.color}
                           </p>
                         </div>
                         <div className="text-right ml-4">
-                          <p className="text-base sm:text-lg font-bold text-gray-900">
+                          <p
+                            className={`${rubik.className} text-base sm:text-lg lg:text-xl font-semibold text-[#4A69E2]`}
+                          >
                             ${(item.price * item.quantity).toFixed(2)}
+                            <span className="font-base text-sm">
+                              {" "}
+                              ({item.quantity} items)
+                            </span>
                           </p>
                         </div>
                       </div>
 
-                      {/* Quantity Selector */}
+                      {/* Selectors */}
                       <div className="flex flex-wrap gap-3 sm:gap-4 mt-4 mb-4">
+                        {/* Size Selector */}
+                        <FormControl size="small" className="min-w-25!">
+                          <Select
+                            value={item.size}
+                            onChange={(e) =>
+                              updateSize(
+                                item.uniqueId,
+                                parseInt(e.target.value),
+                              )
+                            }
+                            className="rounded-lg! text-sm!"
+                          >
+                            {[8, 9, 10, 11, 12].map((size) => (
+                              <MenuItem key={size} value={size}>
+                                Size {size}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+
+                        {/* Quantity Selector */}
                         <FormControl size="small" className="min-w-25!">
                           <Select
                             value={item.quantity}
@@ -168,42 +209,40 @@ export default function CartPage() {
           {/* Right Column - Order Summary */}
           <div className="lg:col-span-1">
             <div className="">
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">
+              <h2
+                className={`${rubik.className} text-xl sm:text-2xl lg:text-[32px] font-semibold text-[#232321] mb-6`}
+              >
                 Order Summary
               </h2>
 
               {/* Summary Details */}
-              <div className="space-y-3 mb-6">
-                <div className="flex justify-between text-sm sm:text-base">
-                  <span className="text-gray-600">
+              <div
+                className={`${openSans.className} space-y-3 mb-6  text-sm sm:text-xl font-semibold text-[#232321]`}
+              >
+                <div className="flex justify-between">
+                  <span className="">
                     {cartItems.reduce((sum, item) => sum + item.quantity, 0)}{" "}
-                    ITEM
+                    ITEMs
                   </span>
-                  <span className="font-semibold text-gray-900">
-                    ${subtotal.toFixed(2)}
-                  </span>
+                  <span className="">${subtotal.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between text-sm sm:text-base">
-                  <span className="text-gray-600">Delivery</span>
-                  <span className="font-semibold text-gray-900">
-                    ${delivery.toFixed(2)}
-                  </span>
+                <div className="flex justify-between">
+                  <span className="">Delivery</span>
+                  <span className="">${delivery.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between text-sm sm:text-base">
-                  <span className="text-gray-600">Sales Tax</span>
-                  <span className="font-semibold text-gray-900">-</span>
+                <div className="flex justify-between ">
+                  <span className="">Sales Tax</span>
+                  <span className="">-</span>
                 </div>
               </div>
 
               {/* Total */}
-              <div className="border-t border-gray-200 pt-4 mb-6">
+              <div
+                className={`${rubik.className} text-[#232321] font-semibold text-sm sm:text-xl pt-4 mb-6`}
+              >
                 <div className="flex justify-between items-center">
-                  <span className="text-base sm:text-lg font-bold text-gray-900">
-                    Total
-                  </span>
-                  <span className="text-xl sm:text-2xl font-bold text-gray-900">
-                    ${total.toFixed(2)}
-                  </span>
+                  <span className="">Total</span>
+                  <span className="">${total.toFixed(2)}</span>
                 </div>
               </div>
 
@@ -215,12 +254,14 @@ export default function CartPage() {
                   bgcolor: "#232321",
                   fontFamily: "rubik, sans-serif",
                   fontWeight: "500",
+                  py: { xs: 1, sm: 1.5, lg: 2.5 },
+
                   fontSize: "14px",
                   "&:hover": {
                     bgcolor: "#3b3838",
                   },
                 }}
-                className="bg-[#232321] hover:bg-gray-800 py-3 sm:py-4 text-sm sm:text-base font-semibold rounded-xl mb-4 normal-case"
+                className=" py-3 sm:py-4 text-sm sm:text-base font-semibold rounded-xl mb-4 normal-case"
               >
                 Checkout
               </Button>

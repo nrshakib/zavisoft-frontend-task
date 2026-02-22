@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import React, { useState } from "react";
@@ -36,6 +37,7 @@ export default function ProductPage() {
         title: singleProductData.title,
         price: singleProductData.price,
         image: singleProductData.images[0],
+        category: singleProductData.category.name,
       },
       selectedSize,
       selectedColor,
@@ -189,7 +191,18 @@ export default function ProductPage() {
                     variant="contained"
                     fullWidth
                     onClick={handleAddToCart}
-                    className="!bg-gray-900 hover:!bg-gray-800 !py-2.5 sm:!py-3 md:!py-3.5 !text-sm sm:!text-base !font-semibold !rounded-lg sm:!rounded-xl col-span-4 !normal-case"
+                    sx={{
+                      bgcolor: "#232321",
+                      py: { xs: 1, sm: 1.5, lg: 2.5 },
+                      fontSize: { xs: "14px", sm: "16px", md: "18px" },
+                      fontWeight: "600",
+                      borderRadius: { xs: "8px", sm: "12px" },
+                      textTransform: "none",
+                      gridColumn: "span 4",
+                      ":hover": {
+                        bgcolor: "#1a1a18",
+                      },
+                    }}
                   >
                     <span className="">
                       {isAdded ? "Added ✓" : "Add to Cart"}
@@ -198,7 +211,18 @@ export default function ProductPage() {
                   <Button
                     variant="contained"
                     fullWidth
-                    className="!bg-gray-900 hover:!bg-gray-800 !py-2.5 sm:!py-3 md:!py-3.5 !text-sm sm:!text-base !font-semibold !rounded-lg sm:!rounded-xl !min-w-0 !px-2"
+                    sx={{
+                      bgcolor: "#232321",
+                      py: { xs: 1, sm: 1.5, lg: 2.5 },
+                      fontSize: { xs: "14px", sm: "16px", md: "18px" },
+                      fontWeight: "600",
+                      borderRadius: { xs: "8px", sm: "12px" },
+                      textTransform: "none",
+                      gridColumn: "span 1",
+                      ":hover": {
+                        bgcolor: "#1a1a18",
+                      },
+                    }}
                   >
                     <FaRegHeart className="text-base sm:text-lg" />
                   </Button>
@@ -206,7 +230,15 @@ export default function ProductPage() {
                 <Button
                   variant="contained"
                   fullWidth
-                  className="!bg-[#4A69E2] hover:!bg-blue-700 !py-2.5 sm:!py-3 md:!py-3.5 !text-sm sm:!text-base !font-semibold !rounded-lg sm:!rounded-xl !normal-case"
+                  onClick={() => router.push("/cart")}
+                  sx={{
+                    bgcolor: "#4A69E2",
+                    py: { xs: 1, sm: 1.5, lg: 2.5 },
+                    fontSize: { xs: "14px", sm: "16px", md: "18px" },
+                    fontWeight: "600",
+                    borderRadius: { xs: "8px", sm: "12px" },
+                    textTransform: "none",
+                  }}
                 >
                   Buy It Now
                 </Button>

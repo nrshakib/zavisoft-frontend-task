@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const CartContext = createContext();
 
@@ -73,6 +74,42 @@ export const CartProvider = ({ children }) => {
     );
   };
 
+  const updateSize = (uniqueId, newSize) => {
+    setCartItems((prevItems) => {
+      const itemToUpdate = prevItems.find((item) => item.uniqueId === uniqueId);
+      if (!itemToUpdate || itemToUpdate.size === newSize) return prevItems;
+
+      // Check if another item with the same ID and new size already exists
+      const existingItemIndex = prevItems.findIndex(
+        (item) =>
+          item.id === itemToUpdate.id &&
+          item.size === newSize &&
+          item.color === itemToUpdate.color &&
+          item.uniqueId !== uniqueId,
+      );
+
+      if (existingItemIndex > -1) {
+        // Merge with existing item
+        const updatedItems = prevItems.filter(
+          (item) => item.uniqueId !== uniqueId,
+        );
+        updatedItems[existingItemIndex].quantity += itemToUpdate.quantity;
+        return updatedItems;
+      }
+
+      // Just update the size and uniqueId
+      return prevItems.map((item) =>
+        item.uniqueId === uniqueId
+          ? {
+              ...item,
+              size: newSize,
+              uniqueId: `${item.id}-${newSize}-${item.color}-${Date.now()}`,
+            }
+          : item,
+      );
+    });
+  };
+
   const clearCart = () => {
     setCartItems([]);
   };
@@ -82,6 +119,7 @@ export const CartProvider = ({ children }) => {
     addToCart,
     removeFromCart,
     updateQuantity,
+    updateSize,
     clearCart,
   };
 
