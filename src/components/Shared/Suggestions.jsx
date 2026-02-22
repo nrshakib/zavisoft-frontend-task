@@ -121,11 +121,11 @@ export default function Suggestions() {
   return (
     <div className="py-10 sm:py-14 lg:py-20 w-[95%] mx-auto">
       {/* Header with Custom Arrows */}
-      <div className="flex flex-row items-center justify-between mb-4 sm:mb-12 lg:mb-16">
+      <div className="flex flex-row items-center justify-between mb-4 sm:mb-6">
         <p
           className={`${rubik.className} text-[#232321] 
           text-2xl sm:text-4xl lg:text-5xl 
-          font-semibold sm:uppercase w-[75%] sm:w-[65%] leading-tight`}
+          font-semibold  w-[75%] sm:w-[65%] leading-tight`}
         >
           You may also like
         </p>
