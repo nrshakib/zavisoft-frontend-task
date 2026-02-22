@@ -3,11 +3,10 @@
 
 import { useGetAllProductsQuery } from "@/redux/slices/productsApi";
 import Loader from "@/utils/Loader";
-import { Button } from "@mui/material";
 import { rubik } from "@/utils/fonts/fonts";
 import Link from "next/link";
 
-export default function NewDrops() {
+export default function AllProducts() {
   const {
     data: productsData,
     isLoading: productsIsLoading,
@@ -19,8 +18,6 @@ export default function NewDrops() {
   if (productsIsLoading) return <Loader />;
   if (productsError) return <div>Error loading products</div>;
 
-  const latestProducts = productsData?.slice(-4) || [];
-
   return (
     <div className="py-10 w-[95%] mx-auto">
       {/* Header */}
@@ -28,37 +25,26 @@ export default function NewDrops() {
         <p
           className={`${rubik.className} text-[#232321] 
           text-2xl sm:text-4xl lg:text-7xl 
-          font-semibold sm:uppercase w-[50%]`}
+          font-semibold sm:uppercase w-[70%]`}
         >
-          Don’t miss out new drops
+          Don’t miss out any of the products
         </p>
-
-        <Link
-          href="/all-products"
-          className={`${rubik.className} 
-          text-white bg-[#4A69E2] 
-          uppercase text-xs sm:text-base 
-          px-2 sm:px-4 py-2 rounded-lg 
-          hover:opacity-90 transition h-fit`}
-        >
-          Show New Drops
-        </Link>
       </div>
 
       {/* Products */}
       <div className="mt-10 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
-        {latestProducts.map((product) => (
-          <div key={product._id}>
+        {productsData.map((product) => (
+          <div key={product.id}>
             <div
               className="relative flex flex-col rounded-2xl p-0 sm:p-4 border border-gray-200 
-        hover:shadow-xl transition lg:min-h-[500px] lg:pb-24"
+        hover:shadow-xl transition lg:min-h-125 lg:pb-24"
             >
               {/* Image */}
               <div className="relative bg-[#FAFAFA] p-3 sm:p-4 rounded-xl flex items-center justify-center">
                 <img
                   src={product.images?.[0]}
                   alt={product.title}
-                  className="h-[140px] sm:h-[200px] lg:h-[300px] 
+                  className="h-35 sm:h-50 lg:h-75 
             w-full object-contain"
                 />
 

@@ -7,6 +7,7 @@ import { BsLightning } from "react-icons/bs";
 import { Button } from "@mui/material";
 import { useGetSingleProductQuery } from "@/redux/slices/productsApi";
 import { useParams } from "next/navigation";
+import Suggestions from "@/components/Shared/Suggestions";
 
 export default function ProductPage() {
   const { slug } = useParams();
@@ -15,12 +16,12 @@ export default function ProductPage() {
     data: singleProductData,
     isLoading: singleProductIsLoading,
     error: singleProductError,
-  } = useGetSingleProductQuery(slug as string);
+  } = useGetSingleProductQuery(slug);
   console.log(singleProductData);
 
-  const [selectedSize, setSelectedSize] = useState<number>(40);
-  const [selectedColor, setSelectedColor] = useState<string>("navy");
-  const [activeImage, setActiveImage] = useState<number>(0);
+  const [selectedSize, setSelectedSize] = useState(40);
+  const [selectedColor, setSelectedColor] = useState("navy");
+  const [activeImage, setActiveImage] = useState(0);
 
   const sizes = [39, 40, 41, 42, 43, 44, 45];
   const colors = [
@@ -51,7 +52,7 @@ export default function ProductPage() {
   return (
     <div className="min-h-screen">
       {/* Container */}
-      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 md:py-8 lg:py-12">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
         <div className="rounded-xl sm:rounded-2xl overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-12 p-3 sm:p-4 md:p-6 lg:p-10">
             {/* Left Column - Images */}
@@ -87,24 +88,6 @@ export default function ProductPage() {
                     />
                   </button>
                 ))}
-              </div>
-
-              {/* Product Features - Mobile Only */}
-              <div className="lg:hidden bg-blue-50 rounded-lg sm:rounded-xl p-3 sm:p-4 space-y-2 sm:space-y-3">
-                <div className="flex items-start gap-2 sm:gap-3">
-                  <BsLightning className="text-blue-600 mt-0.5 flex-shrink-0 text-sm sm:text-base" />
-                  <span className="text-xs sm:text-sm text-gray-700">
-                    Pay in 4 interest-free installments with Affirm, Klarna or
-                    Afterpay
-                  </span>
-                </div>
-                <div className="flex items-start gap-2 sm:gap-3">
-                  <BsLightning className="text-blue-600 mt-0.5 flex-shrink-0 text-sm sm:text-base" />
-                  <span className="text-xs sm:text-sm text-gray-700">
-                    You are eligible for unlimited free standard shipping,
-                    returns & exchanges
-                  </span>
-                </div>
               </div>
             </div>
 
@@ -213,47 +196,12 @@ export default function ProductPage() {
                 <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
                   {singleProductData?.description}
                 </p>
-
-                {/* Features - Desktop Only */}
-                <div className="hidden lg:block bg-blue-50 rounded-xl p-4 space-y-3 mt-4">
-                  <div className="flex items-start gap-3">
-                    <BsLightning className="text-blue-600 mt-1 flex-shrink-0" />
-                    <span className="text-sm text-gray-700">
-                      Pay in 4 interest-free installments with Affirm, Klarna or
-                      Afterpay
-                    </span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <BsLightning className="text-blue-600 mt-1 flex-shrink-0" />
-                    <span className="text-sm text-gray-700">
-                      You are eligible for unlimited free standard shipping,
-                      returns & exchanges
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Additional Details - Accordion */}
-              <div className="border-t border-gray-200 pt-4 sm:pt-5 md:pt-6">
-                <details className="group">
-                  <summary className="flex items-center justify-between cursor-pointer text-xs sm:text-sm font-semibold text-gray-900 uppercase tracking-wide py-2">
-                    Product Details
-                    <span className="transition-transform group-open:rotate-180 text-sm sm:text-base">
-                      ▼
-                    </span>
-                  </summary>
-                  <div className="mt-3 sm:mt-4 text-xs sm:text-sm text-gray-700 space-y-1.5 sm:space-y-2 pb-2">
-                    <p>• Premium quality materials</p>
-                    <p>• Durable construction</p>
-                    <p>• Comfortable fit</p>
-                    <p>• Easy to maintain</p>
-                  </div>
-                </details>
               </div>
             </div>
           </div>
         </div>
       </div>
+      {/* <Suggestions /> */}
     </div>
   );
 }

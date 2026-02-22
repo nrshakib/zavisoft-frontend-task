@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-  ],
+, "src/components/Shared/Suggestions.jsx", "src/app/product-details/[slug]/page.jsx", "src/app/all-products/page.jsx"  ],
   "exclude": ["node_modules"]
 }
