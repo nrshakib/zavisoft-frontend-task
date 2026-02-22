@@ -77,7 +77,7 @@ export default function Reviews() {
       {/* Slider */}
       <Slider {...settings}>
         {reviews.map((review) => (
-          <div key={review.id} className="">
+          <div key={review.id} className="px-1 ">
             <div className="bg-white rounded-2xl overflow-hidden shadow-sm">
               {/* Top Content */}
               <div className="p-5 flex items-start justify-between">

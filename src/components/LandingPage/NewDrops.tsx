@@ -14,6 +14,8 @@ export default function NewDrops() {
     error: productsError,
   } = useGetAllProductsQuery({});
 
+  console.log(productsData);
+
   if (productsIsLoading) return <Loader />;
   if (productsError) return <div>Error loading products</div>;
 
@@ -77,34 +79,15 @@ export default function NewDrops() {
               </p>
 
               {/* Button */}
-              <Button
-                variant="contained"
-                sx={{
-                  marginTop: "12px",
-                  fontFamily: "Rubik, sans-serif",
-                  backgroundColor: "#232321",
-                  fontSize: {
-                    xs: "10px",
-                    sm: "12px",
-                    md: "14px",
-                    lg: "16px",
-                  },
-                  "&:hover": { backgroundColor: "#333" },
-
-                  // Only absolute on large screens
-                  "@media (min-width:1024px)": {
-                    position: "absolute",
-                    bottom: "16px",
-                    left: "16px",
-                    right: "16px",
-                  },
-                }}
+              <Link
+                href={`/product-details/${product.slug}`}
+                className={`${rubik.className} absolute bottom-4 left-4 right-4 mt-3 bg-[#232321] text-white text-center py-2 rounded-lg hover:opacity-90 transition`}
               >
                 View Product -
                 <span style={{ color: "#FFA52F", marginLeft: "6px" }}>
                   ${product.price}
                 </span>
-              </Button>
+              </Link>
             </div>
           </div>
         ))}
