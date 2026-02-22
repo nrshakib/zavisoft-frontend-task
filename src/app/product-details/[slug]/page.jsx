@@ -1,9 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { FiShoppingCart } from "react-icons/fi";
 import { FaRegHeart } from "react-icons/fa";
-import { BsLightning } from "react-icons/bs";
 import { Button } from "@mui/material";
 import { useGetSingleProductQuery } from "@/redux/slices/productsApi";
 import { useParams } from "next/navigation";
@@ -111,9 +109,6 @@ export default function ProductPage() {
                   <label className="text-xs sm:text-sm font-semibold text-gray-900 uppercase tracking-wide">
                     Color
                   </label>
-                  <span className="text-xs sm:text-sm text-gray-600 capitalize">
-                    {selectedColor}
-                  </span>
                 </div>
                 <div className="flex gap-2 sm:gap-3">
                   {colors.map((color) => (
@@ -201,7 +196,7 @@ export default function ProductPage() {
           </div>
         </div>
       </div>
-      {/* <Suggestions /> */}
+      <Suggestions />
     </div>
   );
 }

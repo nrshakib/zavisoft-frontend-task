@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGetAllProductsQuery } from "@/redux/slices/productsApi";
 import Loader from "@/utils/Loader";
 import { rubik } from "@/utils/fonts/fonts";
@@ -11,44 +11,10 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-// Custom Arrow Components
-function NextArrow(props) {
-  const { onClick } = props;
-  return (
-    <button
-      onClick={onClick}
-      className="absolute -right-4 sm:-right-6 lg:-right-12 top-1/2 -translate-y-1/2 z-10 
-      bg-[#4A69E2] hover:bg-[#3a59d2] text-white 
-      w-10 h-10 sm:w-12 sm:h-12 
-      rounded-full flex items-center justify-center 
-      shadow-lg transition-all duration-300 
-      hover:scale-110 active:scale-95"
-      aria-label="Next"
-    >
-      <IoIosArrowForward className="text-xl sm:text-2xl" />
-    </button>
-  );
-}
-
-function PrevArrow(props) {
-  const { onClick } = props;
-  return (
-    <button
-      onClick={onClick}
-      className="absolute -left-4 sm:-left-6 lg:-left-12 top-1/2 -translate-y-1/2 z-10 
-      bg-[#4A69E2] hover:bg-[#3a59d2] text-white 
-      w-10 h-10 sm:w-12 sm:h-12 
-      rounded-full flex items-center justify-center 
-      shadow-lg transition-all duration-300 
-      hover:scale-110 active:scale-95"
-      aria-label="Previous"
-    >
-      <IoIosArrowBack className="text-xl sm:text-2xl" />
-    </button>
-  );
-}
-
 export default function Suggestions() {
+  const sliderRef = useRef(null);
+  const [slidesToShow, setSlidesToShow] = useState(4);
+
   useEffect(() => {
     const style = document.createElement("style");
     style.textContent = `
@@ -64,13 +30,26 @@ export default function Suggestions() {
     return () => document.head.removeChild(style);
   }, []);
 
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width < 480) setSlidesToShow(1);
+      else if (width < 640) setSlidesToShow(2);
+      else if (width < 768) setSlidesToShow(2);
+      else if (width < 1024) setSlidesToShow(3);
+      else setSlidesToShow(4);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const {
     data: productsData,
     isLoading: productsIsLoading,
     error: productsError,
   } = useGetAllProductsQuery({});
-
-  console.log(productsData);
 
   if (productsIsLoading) return <Loader />;
   if (productsError) return <div>Error loading products</div>;
@@ -78,104 +57,116 @@ export default function Suggestions() {
   // Slider settings
   const settings = {
     dots: true,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
     pauseOnHover: true,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
+    arrows: false,
+    appendDots: (dots) => {
+      // Only show dots equal to slidesToShow
+      const limitedDots = dots.slice(0, slidesToShow);
+      return (
+        <ul className="slick-dots flex! justify-center! gap-2! -bottom-10!">
+          {limitedDots}
+        </ul>
+      );
+    },
     responsive: [
       {
-        breakpoint: 1280, // xl
+        breakpoint: 1280,
         settings: {
           slidesToShow: 4,
           slidesToScroll: 1,
         },
       },
       {
-        breakpoint: 1024, // lg
+        breakpoint: 1024,
         settings: {
           slidesToShow: 3,
           slidesToScroll: 1,
         },
       },
       {
-        breakpoint: 768, // md
+        breakpoint: 768,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
-          arrows: true,
         },
       },
       {
-        breakpoint: 640, // sm
+        breakpoint: 640,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
-          arrows: false,
-          dots: true,
         },
       },
       {
-        breakpoint: 480, // xs
+        breakpoint: 480,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
-          arrows: false,
-          dots: true,
         },
       },
     ],
-    customPaging: function (i) {
+    customPaging: function () {
       return (
         <div className="w-3 h-3 rounded-full bg-gray-300 hover:bg-[#4A69E2] transition-all duration-300 mt-4"></div>
       );
     },
-    dotsClass: "slick-dots !flex !justify-center !gap-2 !bottom-[-40px]",
   };
 
   return (
     <div className="py-10 sm:py-14 lg:py-20 w-[95%] mx-auto">
-      {/* Header */}
-      <div className="flex flex-row items-end justify-between mb-8 sm:mb-12 lg:mb-16">
+      {/* Header with Custom Arrows */}
+      <div className="flex flex-row items-center justify-between mb-4 sm:mb-12 lg:mb-16">
         <p
           className={`${rubik.className} text-[#232321] 
-          text-2xl sm:text-4xl lg:text-6xl xl:text-7xl 
-          font-semibold sm:uppercase w-[50%] sm:w-[60%] leading-tight`}
+          text-2xl sm:text-4xl lg:text-5xl 
+          font-semibold sm:uppercase w-[75%] sm:w-[65%] leading-tight`}
         >
-          You may also like these products
+          You may also like
         </p>
 
-        <Link
-          href="/all-products"
-          className={`${rubik.className} 
-          text-white bg-[#4A69E2] 
-          uppercase text-xs sm:text-sm lg:text-base 
-          px-3 sm:px-5 lg:px-6 
-          py-2 sm:py-2.5 lg:py-3 
-          rounded-lg 
-          hover:bg-[#3a59d2] 
-          transition-all duration-300 
-          hover:scale-105 active:scale-95 
-          h-fit font-medium`}
-        >
-          Show New Drops
-        </Link>
+        {/* Custom Navigation Arrows */}
+        <div className="hidden md:flex items-center gap-3">
+          <button
+            onClick={() => sliderRef.current?.slickPrev()}
+            className="bg-[#232321] hover:bg-[#050404] text-white 
+            w-8 h-8  
+            rounded-xl flex items-center justify-center 
+            shadow-lg transition-all duration-300 
+            hover:scale-110 active:scale-95 cursor-pointer"
+            aria-label="Previous"
+          >
+            <IoIosArrowBack className="text-lg sm:text-xl" />
+          </button>
+          <button
+            onClick={() => sliderRef.current?.slickNext()}
+            className="bg-[#232321] hover:bg-[#050404] text-white 
+            w-8 h-8  
+            rounded-xl flex items-center justify-center 
+            shadow-lg transition-all duration-300 
+            hover:scale-110 active:scale-95 cursor-pointer"
+            aria-label="Next"
+          >
+            <IoIosArrowForward className="text-lg sm:text-xl" />
+          </button>
+        </div>
       </div>
 
       {/* Products Slider */}
-      <div className="relative px-4 sm:px-8 lg:px-12 pb-12">
-        <Slider {...settings}>
-          {productsData?.products?.map((product) => (
-            <div key={product._id} className="px-2 sm:px-3">
+      <div className="relative pb-12">
+        <Slider ref={sliderRef} {...settings}>
+          {productsData?.map((product) => (
+            <div key={product.id} className="px-2 sm:px-3">
               <div
                 className="relative flex flex-col rounded-2xl p-3 sm:p-4 border border-gray-200 
-                hover:shadow-xl hover:border-[#4A69E2] 
+                hover:shadow-xl 
                 transition-all duration-300 
-                min-h-[380px] sm:min-h-[420px] lg:min-h-[500px] 
+                min-h-70 sm:min-h-90 lg:min-h-125 
                 group"
               >
                 {/* Image */}
@@ -183,7 +174,7 @@ export default function Suggestions() {
                   <img
                     src={product.images?.[0]}
                     alt={product.title}
-                    className="h-[140px] sm:h-[180px] lg:h-[250px] xl:h-[300px] 
+                    className="h-35 sm:h-45 lg:h-62.5 xl:h-75 
                     w-full object-contain 
                     transition-transform duration-300 
                     group-hover:scale-110"
@@ -201,7 +192,7 @@ export default function Suggestions() {
                   text-xs sm:text-sm lg:text-base xl:text-lg 
                   font-semibold uppercase 
                   line-clamp-2 
-                  min-h-[32px] sm:min-h-[40px] lg:min-h-[48px]`}
+                  min-h-8 sm:min-h-10 lg:min-h-12`}
                 >
                   {product?.title || "No Title"}
                 </p>
@@ -214,7 +205,7 @@ export default function Suggestions() {
                   mt-3 bg-[#232321] text-white text-center 
                   py-2 sm:py-2.5 lg:py-3 
                   rounded-lg 
-                  hover:bg-[#4A69E2] 
+                  hover:bg-[#3b3838] 
                   transition-all duration-300 
                   text-xs sm:text-sm lg:text-base 
                   font-medium
@@ -230,8 +221,6 @@ export default function Suggestions() {
           ))}
         </Slider>
       </div>
-
-
     </div>
   );
 }
