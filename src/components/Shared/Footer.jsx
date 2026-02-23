@@ -152,7 +152,7 @@ export default function Footer() {
                 {categories.map((cat) => (
                   <li key={cat}>
                     <Link
-                      href="#"
+                      href={cat.toLowerCase()}
                       className={`${openSans.className} text-base md:text-lg font-semibold text-[#E7E7E3] hover:text-white transition`}
                     >
                       {cat}
@@ -173,7 +173,7 @@ export default function Footer() {
                 {companyLinks.map((link) => (
                   <li key={link}>
                     <Link
-                      href="#"
+                      href={link.toLowerCase()}
                       className={`${openSans.className} text-base md:text-lg font-semibold text-[#E7E7E3] hover:text-white transition`}
                     >
                       {link}

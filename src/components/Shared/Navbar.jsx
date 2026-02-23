@@ -4,7 +4,13 @@ import { IconButton, Badge, TextField, Drawer, Collapse } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
-import { FaSearch, FaUser, FaBars, FaChevronDown, FaShoppingBag } from "react-icons/fa";
+import {
+  FaSearch,
+  FaUser,
+  FaBars,
+  FaChevronDown,
+  FaShoppingBag,
+} from "react-icons/fa";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { motion, AnimatePresence } from "motion/react";
 import { useCart } from "@/context/CartContext";
@@ -43,14 +49,14 @@ export default function Navbar() {
         {/* Responsive Logo */}
         <div className="absolute left-1/2 -translate-x-1/2">
           {/* Small & Medium */}
-          <div className="block lg:hidden">
+          <Link href="/" className="block lg:hidden">
             <Image src="/Images/logo.png" width={80} height={20} alt="Logo" />
-          </div>
+          </Link>
 
           {/* Large */}
-          <div className="hidden lg:block">
+          <Link href="/" className="hidden lg:block">
             <Image src="/Images/logo.png" width={128} height={32} alt="Logo" />
-          </div>
+          </Link>
         </div>
 
         {/* Right Section */}
