@@ -50,7 +50,7 @@ export default function NewDrops() {
           <div key={product.id}>
             <div
               className="relative flex flex-col rounded-2xl p-0 sm:p-4 border border-gray-200 
-        hover:shadow-xl transition lg:min-h-125 lg:pb-24"
+        hover:shadow-xl transition min-h-70 sm:min-h-95 lg:min-h-130 lg:pb-24"
             >
               {/* Image */}
               <div className="relative bg-[#FAFAFA] p-3 sm:p-4 rounded-xl flex items-center justify-center">
@@ -80,7 +80,7 @@ export default function NewDrops() {
               {/* Button */}
               <Link
                 href={`/product-details/${product.slug}`}
-                className={`${rubik.className} absolute bottom-4 left-4 right-4 mt-3 bg-[#232321] text-white text-center py-2 rounded-lg hover:opacity-90 transition`}
+                className={`${rubik.className} absolute bottom-4 left-1/2 -translate-x-1/2  mt-3 bg-[#232321] text-white text-center py-2 rounded-lg hover:opacity-90 transition w-full text-xs sm:text-sm lg:text-base`}
               >
                 View Product -
                 <span style={{ color: "#FFA52F", marginLeft: "6px" }}>
