@@ -5,16 +5,22 @@ import { IconButton } from "@mui/material";
 import Slider from "react-slick";
 import { FiArrowLeft, FiArrowRight, FiArrowUpRight } from "react-icons/fi";
 import { useGetAllCategoriesQuery } from "@/redux/slices/categoriesApi";
-import Loader from "@/utils/Loader";
 import { rubik } from "@/utils/fonts/fonts";
+import ErrorFallback from "../Shared/ErrorFallback";
+import { CategorySliderSkeleton } from "../Shared/Skeleton";
 
 export default function Categories() {
   const sliderRef = useRef(null);
 
-  const { data: categories, isLoading, error } = useGetAllCategoriesQuery({});
+  const { data: categories, isLoading, error, refetch } = useGetAllCategoriesQuery({});
 
-  if (isLoading) return <Loader />;
-  if (error) return <div>Error loading categories</div>;
+  if (isLoading)
+    return (
+      <div className="bg-linear-to-r from-[#1c1c1c] to-[#2b2b2b] py-16 pl-6 lg:pl-16">
+        <CategorySliderSkeleton count={2} />
+      </div>
+    );
+  if (error) return <ErrorFallback error={error} reset={refetch} />;
 
   const settings = {
     dots: false,

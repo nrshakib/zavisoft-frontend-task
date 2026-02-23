@@ -1,6 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
+import ErrorFallback from "@/components/Shared/ErrorFallback";
+import {
+  ProductDetailSkeleton,
+  ProductGridSkeleton,
+} from "@/components/Shared/Skeleton";
 import { useGetAllProductsQuery } from "@/redux/slices/productsApi";
 import Loader from "@/utils/Loader";
 import { rubik } from "@/utils/fonts/fonts";
@@ -11,12 +16,28 @@ export default function AllProducts() {
     data: productsData,
     isLoading: productsIsLoading,
     error: productsError,
+    refetch,
   } = useGetAllProductsQuery({});
 
   console.log(productsData);
 
-  if (productsIsLoading) return <Loader />;
-  if (productsError) return <div>Error loading products</div>;
+  // Loading state
+  if (productsIsLoading) {
+    return (
+      <div className="min-h-screen container mx-auto px-4 py-10 mt-10">
+        <ProductGridSkeleton />
+      </div>
+    );
+  }
+
+  // Error state
+  if (productsError) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <ErrorFallback error={productsError} reset={refetch} />
+      </div>
+    );
+  }
 
   return (
     <div className="py-10 w-[95%] mx-auto">
@@ -67,7 +88,7 @@ export default function AllProducts() {
               {/* Button */}
               <Link
                 href={`/product-details/${product.slug}`}
-                className={`${rubik.className} absolute bottom-4 left-1/2 -translate-x-1/2 mt-3 bg-[#232321] text-white text-center py-2 rounded-lg hover:opacity-90 transition w-full text-xs sm:text-sm lg:text-base`}
+                className={`${rubik.className} absolute bottom-4 left-1/2 -translate-x-1/2 mt-3 bg-[#232321] text-white text-center py-2 rounded-lg hover:opacity-90 transition w-[90%] text-xs sm:text-sm lg:text-base`}
               >
                 View Product -
                 <span style={{ color: "#FFA52F", marginLeft: "6px" }}>

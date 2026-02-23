@@ -9,6 +9,8 @@ import { useParams, useRouter } from "next/navigation";
 import Suggestions from "@/components/Shared/Suggestions";
 import { useCart } from "@/context/CartContext";
 import { toast } from "sonner";
+import ErrorFallback from "@/components/Shared/ErrorFallback";
+import { ProductDetailSkeleton } from "@/components/Shared/Skeleton";
 
 export default function ProductPage() {
   const { slug } = useParams();
@@ -17,6 +19,7 @@ export default function ProductPage() {
     data: singleProductData,
     isLoading: singleProductIsLoading,
     error: singleProductError,
+    refetch,
   } = useGetSingleProductQuery(slug);
   console.log(singleProductData);
 
@@ -58,8 +61,8 @@ export default function ProductPage() {
   // Loading state
   if (singleProductIsLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-xl font-semibold text-gray-600">Loading...</div>
+      <div className="min-h-screen container mx-auto px-4 py-10 mt-10">
+        <ProductDetailSkeleton />
       </div>
     );
   }
@@ -68,9 +71,7 @@ export default function ProductPage() {
   if (singleProductError) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-xl font-semibold text-red-600">
-          Error loading product
-        </div>
+        <ErrorFallback error={singleProductError} reset={refetch} />
       </div>
     );
   }
@@ -193,7 +194,7 @@ export default function ProductPage() {
                     onClick={handleAddToCart}
                     sx={{
                       bgcolor: "#232321",
-                      py: { xs: 1, sm: 1.5, lg: 2.5 },
+                      py: { xs: "8px", sm: "9px", lg: "10px" },
                       fontSize: { xs: "14px", sm: "16px", md: "18px" },
                       fontWeight: "600",
                       borderRadius: { xs: "8px", sm: "12px" },
@@ -213,7 +214,7 @@ export default function ProductPage() {
                     fullWidth
                     sx={{
                       bgcolor: "#232321",
-                      py: { xs: 1, sm: 1.5, lg: 2.5 },
+                      py: { xs: "8px", sm: "9px", lg: "10px" },
                       fontSize: { xs: "14px", sm: "16px", md: "18px" },
                       fontWeight: "600",
                       borderRadius: { xs: "8px", sm: "12px" },
@@ -233,7 +234,7 @@ export default function ProductPage() {
                   onClick={() => router.push("/cart")}
                   sx={{
                     bgcolor: "#4A69E2",
-                    py: { xs: 1, sm: 1.5, lg: 2.5 },
+                    py: { xs: "8px", sm: "9px", lg: "10px" },
                     fontSize: { xs: "14px", sm: "16px", md: "18px" },
                     fontWeight: "600",
                     borderRadius: { xs: "8px", sm: "12px" },

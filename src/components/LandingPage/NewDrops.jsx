@@ -2,21 +2,28 @@
 "use client";
 
 import { useGetAllProductsQuery } from "@/redux/slices/productsApi";
-import Loader from "@/utils/Loader";
 import { rubik } from "@/utils/fonts/fonts";
 import Link from "next/link";
+import ErrorFallback from "../Shared/ErrorFallback";
+import { ProductGridSkeleton } from "../Shared/Skeleton";
 
 export default function NewDrops() {
   const {
     data: productsData,
     isLoading: productsIsLoading,
     error: productsError,
+    refetch,
   } = useGetAllProductsQuery({});
 
   console.log(productsData);
 
-  if (productsIsLoading) return <Loader />;
-  if (productsError) return <div>Error loading products</div>;
+  if (productsIsLoading)
+    return (
+      <div className="py-10 w-[95%] mx-auto mt-20">
+        <ProductGridSkeleton count={4} />
+      </div>
+    );
+  if (productsError) return <ErrorFallback error={productsError} reset={refetch} />;
 
   const latestProducts = productsData?.slice(-4) || [];
 

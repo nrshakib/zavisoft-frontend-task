@@ -3,8 +3,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useGetAllProductsQuery } from "@/redux/slices/productsApi";
-import Loader from "@/utils/Loader";
 import { rubik } from "@/utils/fonts/fonts";
+import ErrorFallback from "./ErrorFallback";
+import { ProductGridSkeleton } from "./Skeleton";
 import Link from "next/link";
 import Slider from "react-slick";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
@@ -49,10 +50,16 @@ export default function Suggestions() {
     data: productsData,
     isLoading: productsIsLoading,
     error: productsError,
+    refetch,
   } = useGetAllProductsQuery({});
 
-  if (productsIsLoading) return <Loader />;
-  if (productsError) return <div>Error loading products</div>;
+  if (productsIsLoading)
+    return (
+      <div className="py-10 w-[95%] mx-auto">
+        <ProductGridSkeleton count={4} />
+      </div>
+    );
+  if (productsError) return <ErrorFallback error={productsError} reset={refetch} />;
 
   // Slider settings
   const settings = {
